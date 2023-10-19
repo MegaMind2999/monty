@@ -1,11 +1,11 @@
 #include "monty.h"
+sharedds_t share = { NULL, NULL, NULL, NULL, 0 };
 
-sharedds share = { NULL, NULL, NULL, NULL, 0 };
 /**
- * f_pall - print all the stack
+ * my_pall - print all the stack
  * @head: stack head
  * @counter: no used
- * Return: no return
+ * Return: void
 */
 void my_pall(stack_t **head, int counter)
 {

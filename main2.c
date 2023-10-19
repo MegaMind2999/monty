@@ -4,9 +4,9 @@
 * free_thestack - frees a doubly linked list
 * return: nothing
 */
-void free_thestack(stack_t* stack)
+void free_thestack(stack_t *stack)
 {
-	stack_t* tmp, * temp;
+	stack_t *tmp, *temp;
 
 	tmp = stack;
 	if (tmp == NULL)
@@ -27,7 +27,7 @@ void free_thestack(stack_t* stack)
  * @counter: line_number
  * Return: nothing
 */
-void my_pint(stack_t** head, int counter)
+void my_pint(stack_t **head, int counter)
 {
 	if (*head == NULL)
 	{

@@ -66,17 +66,16 @@ typedef struct sharedds_s
 	char *opcode;
 	char *oparg;
 	int is_stack;
-} sharedds;
+} sharedds_t;
+extern sharedds_t share;
 
-extern sharedds share;
 
-
-void free_thestack(stack_t* stack);
-void my_pint(stack_t** head, int counter);
-void my_pall(stack_t** head, int counter);
-void push_exit(int line_number, stack_t* stack_index);
-void my_push(stack_t** head, int line_number);
-int execute_op(stack_t** stack, char* line, int counter);
-int main(int argc, char* argv[]);
+void free_thestack(stack_t *stack);
+void my_pint(stack_t **head, int counter);
+void my_pall(stack_t **head, int counter);
+void push_exit(int line_number, stack_t *stack_index);
+void my_push(stack_t **head, int line_number);
+int execute_op(stack_t **stack, char *line, int counter);
+int main(int argc, char *argv[]);
 
 #endif
