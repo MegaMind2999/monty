@@ -38,9 +38,9 @@ void push_exit(int line_number, stack_t *stack_index)
 	exit(EXIT_FAILURE);
 }
 /**
- * f_push - add node to the stack
+ * my_push - add node to the stack
  * @head: stack head
- * @counter: line_number
+ * @line_number: line_number
  * Return: no return
 */
 void my_push(stack_t **head, int line_number)
@@ -92,7 +92,8 @@ int execute_op(stack_t **stack, char *line, int counter)
 {
 	instruction_t opcodes[] = { {"push", my_push}, {"pall", my_pall}
 	, {"pint", my_pint}, {"pop", my_pop}, {"swap", my_swap}
-	, {"add", my_add}, {"nop", my_nop}, {NULL, NULL} };
+	, {"add", my_add}, {"nop", my_nop}, {"sub", my_sub}, {"div", my_div}
+	, {"mul", my_mul}, {"mod", my_mod}, {NULL, NULL}};
 	int i = 0;
 
 	share.opcode = strtok(line, "\n \t");
