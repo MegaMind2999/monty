@@ -1,34 +1,15 @@
 #include "monty.h"
 
-/**
-* free_thestack - frees a doubly linked list
-* return: nothing
-*/
-void free_thestack(stack_t *stack)
-{
-	stack_t *tmp, *temp;
-	tmp = stack;
-	if (tmp == NULL)
-		return;
-	while (tmp->prev)
-		tmp = tmp->prev;
-	while (tmp)
-	{
-		temp = tmp->next;
-		free(tmp);
-		tmp = temp;
-	}
-}
-
+sharedds share = { NULL, NULL, NULL, NULL, 0 };
 /**
  * f_pall - print all the stack
  * @head: stack head
  * @counter: no used
  * Return: no return
 */
-void my_pall(stack_t** head, int counter)
+void my_pall(stack_t **head, int counter)
 {
-	stack_t* curr;
+	stack_t *curr;
 
 	counter++;
 	curr = *head;
@@ -42,25 +23,33 @@ void my_pall(stack_t** head, int counter)
 		curr = curr->next;
 	}
 }
-
+/**
+ * push_exit - exit the push with error
+ * @stack_index: stack head
+ * @line_number: line_number
+ * Return: no return
+*/
+void push_exit(int line_number, stack_t *stack_index)
+{
+	fprintf(stderr, "L%d: usage: push integer\n", line_number);
+	fclose(share.file);
+	free(share.curr_line);
+	free_thestack(stack_index);
+	exit(EXIT_FAILURE);
+}
 /**
  * f_push - add node to the stack
  * @head: stack head
  * @counter: line_number
  * Return: no return
 */
-void my_push(stack_t** head, int line_number)
+void my_push(stack_t **head, int line_number)
 {
-	stack_t* stack_index = *head, *newnode;
+	stack_t *stack_index = *head, *newnode;
 	int i = 0, not_a_num = 0;
+
 	if (!share.oparg)
-	{
-		fprintf(stderr, "L%d: usage: push integer\n", line_number);
-		fclose(share.file);
-		free(share.curr_line);
-		free_thestack(stack_index);
-		exit(EXIT_FAILURE);
-	}
+		push_exit(line_number, stack_index);
 	if (share.oparg[0] == '-')
 		i++;
 	while (share.oparg[i] != '\0')
@@ -70,14 +59,8 @@ void my_push(stack_t** head, int line_number)
 		i++;
 	}
 	if (not_a_num)
-	{
-		fprintf(stderr, "L%d: usage: push integer\n", line_number);
-		fclose(share.file);
-		free(share.curr_line);
-		free_thestack(stack_index);
-		exit(EXIT_FAILURE);
-	}
-	newnode = (stack_t*) malloc(sizeof(stack_t));
+		push_exit(line_number, stack_index);
+	newnode = (stack_t *) malloc(sizeof(stack_t));
 	if (newnode == NULL)
 		exit(1);
 	if (!stack_index)
@@ -102,11 +85,13 @@ void my_push(stack_t** head, int line_number)
 * execute_op - executing the opcode
 * @counter: line_counter
 * @line: line content
+* @stack: the stack
 * Return: 0 or 1
 */
-int execute_op(stack_t** stack, char* line, int counter)
+int execute_op(stack_t **stack, char *line, int counter)
 {
-	instruction_t opcodes[] = { {"push", my_push}, {"pall", my_pall} ,{NULL, NULL} };
+	instruction_t opcodes[] = { {"push", my_push}, {"pall", my_pall}
+	, {"pint", my_pint}, {NULL, NULL} };
 	int i = 0;
 
 	share.opcode = strtok(line, "\n \t");
@@ -132,27 +117,32 @@ int execute_op(stack_t** stack, char* line, int counter)
 	}
 	return (1);
 }
-
-int main(int argc, char* argv[])
+/**
+* main - main prog
+* @argc: arg count
+* @argv: arg array
+* Return: exit code
+*/
+int main(int argc, char *argv[])
 {
 	ssize_t line_size = 1;
 	size_t size = 1024;
 	char *buffer;
-	stack_t* stack = NULL;
+	stack_t *stack = NULL;
 	int counter = 0;
 
 	if (argc != 2)
 	{
 		fprintf(stderr, "USAGE: monty file\n");
-		return(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	}
 	share.file = fopen(argv[1], "r");
 	if (!share.file)
 	{
 		fprintf(stderr, "Error: Can't open file %s\n", argv[1]);
-		return(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	}
-	while (line_size !=-1)
+	while (line_size != -1)
 	{
 		buffer = NULL;
 		line_size = getline(&buffer, &size, share.file);
@@ -166,5 +156,5 @@ int main(int argc, char* argv[])
 	}
 	free_thestack(stack);
 	fclose(share.file);
-    return (0);
+	return (0);
 }
