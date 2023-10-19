@@ -77,5 +77,9 @@ void push_exit(int line_number, stack_t *stack_index);
 void my_push(stack_t **head, int line_number);
 int execute_op(stack_t **stack, char *line, int counter);
 int main(int argc, char *argv[]);
+void my_pop(stack_t **head, int counter);
+void my_swap(stack_t **head, int counter);
+void my_add(stack_t **head, int counter);
+void my_nop(stack_t** head, int counter);
 
 #endif

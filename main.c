@@ -91,7 +91,8 @@ void my_push(stack_t **head, int line_number)
 int execute_op(stack_t **stack, char *line, int counter)
 {
 	instruction_t opcodes[] = { {"push", my_push}, {"pall", my_pall}
-	, {"pint", my_pint}, {NULL, NULL} };
+	, {"pint", my_pint}, {"pop", my_pop}, {"swap", my_swap}
+	, {"add", my_add}, {"nop", my_nop}, {NULL, NULL} };
 	int i = 0;
 
 	share.opcode = strtok(line, "\n \t");
