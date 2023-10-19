@@ -3,8 +3,7 @@
 #define  _GNU_SOURCE
 #include <stdio.h>
 #include <stdlib.h>
-#include <signal.h>
-#include <string.h>
+include <string.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
