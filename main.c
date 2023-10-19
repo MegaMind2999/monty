@@ -45,7 +45,7 @@ void push_exit(int line_number, stack_t *stack_index)
 */
 void my_push(stack_t **head, int line_number)
 {
-	stack_t *stack_index = *head, *newnode;
+	stack_t *stack_index = *head, *newnode = NULL;
 	int i = 0, not_a_num = 0;
 
 	if (!share.oparg)
@@ -62,7 +62,7 @@ void my_push(stack_t **head, int line_number)
 		push_exit(line_number, stack_index);
 	newnode = (stack_t *) malloc(sizeof(stack_t));
 	if (newnode == NULL)
-		exit(1);
+		exit(0);
 	if (!stack_index)
 	{
 		*head = newnode;
