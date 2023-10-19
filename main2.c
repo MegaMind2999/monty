@@ -2,6 +2,7 @@
 
 /**
 * free_thestack - frees a doubly linked list
+* @stack: the stack to be freed
 * return: nothing
 */
 void free_thestack(stack_t *stack)
@@ -60,7 +61,7 @@ void my_pop(stack_t **head, int counter)
 	}
 	curr = *head;
 	*head = curr->next;
-	if((*head) != NULL)
+	if ((*head) != NULL)
 		(*head)->prev = NULL;
 	free(curr);
 }

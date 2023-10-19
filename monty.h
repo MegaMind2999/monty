@@ -80,6 +80,6 @@ int main(int argc, char *argv[]);
 void my_pop(stack_t **head, int counter);
 void my_swap(stack_t **head, int counter);
 void my_add(stack_t **head, int counter);
-void my_nop(stack_t** head, int counter);
+void my_nop(stack_t **head, int counter);
 
 #endif
