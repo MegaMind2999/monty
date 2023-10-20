@@ -85,4 +85,10 @@ void my_sub(stack_t **head, int counter);
 void my_div(stack_t **head, int counter);
 void my_mul(stack_t **head, int counter);
 void my_mod(stack_t **head, int counter);
+void my_pchr(stack_t **head, int counter);
+void my_pstr(stack_t **head, int counter);
+void my_rotl(stack_t **head, int counter);
+void my_rotr(stack_t **head, int counter);
+void my_s(stack_t **head, int counter);
+void my_q(stack_t **head, int counter);
 #endif

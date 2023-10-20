@@ -1,5 +1,5 @@
 #include "monty.h"
-sharedds_t share = { NULL, NULL, NULL, NULL, 0 };
+sharedds_t share = { NULL, NULL, NULL, NULL, 1 };
 
 /**
  * my_pall - print all the stack
@@ -52,12 +52,9 @@ void my_push(stack_t **head, int line_number)
 		push_exit(line_number, stack_index);
 	if (share.oparg[0] == '-')
 		i++;
-	while (share.oparg[i] != '\0')
-	{
+	for ( ; share.oparg[i] != '\0'; i++)
 		if (share.oparg[i] > '9' || share.oparg[i] < '0')
 			not_a_num = 1;
-		i++;
-	}
 	if (not_a_num)
 		push_exit(line_number, stack_index);
 	newnode = (stack_t *) malloc(sizeof(stack_t));
@@ -68,18 +65,25 @@ void my_push(stack_t **head, int line_number)
 		*head = newnode;
 		newnode->next = NULL;
 		newnode->prev = NULL;
-		newnode->n = atoi(share.oparg);
 	}
 	else
 	{
-		while (stack_index->prev)
-			stack_index = stack_index->prev;
-		stack_index->prev = newnode;
-		newnode->prev = NULL;
-		newnode->next = stack_index;
-		newnode->n = atoi(share.oparg);
-		*head = newnode;
+		if (share.is_stack)
+		{
+			stack_index->prev = newnode;
+			newnode->prev = NULL;
+			newnode->next = stack_index;
+			*head = newnode;
+		} else
+		{
+			while (stack_index->next != NULL)
+				stack_index = stack_index->next;
+			stack_index->next = newnode;
+			newnode->prev = stack_index;
+			newnode->next = NULL;
+		}
 	}
+	newnode->n = atoi(share.oparg);
 }
 /**
 * execute_op - executing the opcode
@@ -93,7 +97,9 @@ int execute_op(stack_t **stack, char *line, int counter)
 	instruction_t opcodes[] = { {"push", my_push}, {"pall", my_pall}
 	, {"pint", my_pint}, {"pop", my_pop}, {"swap", my_swap}
 	, {"add", my_add}, {"nop", my_nop}, {"sub", my_sub}, {"div", my_div}
-	, {"mul", my_mul}, {"mod", my_mod}, {NULL, NULL}};
+	, {"mul", my_mul}, {"mod", my_mod}, {"pchar", my_pchr}, {"pstr", my_pstr}
+	, {"rotl", my_rotl}, {"rotr", my_rotr}, {"stack", my_s}, {"queue", my_q}
+	, {NULL, NULL}};
 	int i = 0;
 
 	share.opcode = strtok(line, "\n \t");
